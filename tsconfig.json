@@ -9,10 +9,20 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    // 定义一个变量就必须给它一个初始值
+    // "strictPropertyInitialization" : false,
+    // 允许编译javascript文件
+    "allowJs": true,
     "sourceMap": true,
     "baseUrl": ".",
+    // 给错误和消息设置样式，使用颜色和上下文。
+    "pretty": true,
     "types": [
       "webpack-env"
+    ],
+    "typeRoots": [
+      "./src",
+      // "./node_modules/vue/types"
     ],
     "paths": {
       "@/*": [
