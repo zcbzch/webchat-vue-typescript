@@ -1,6 +1,8 @@
 <template>
   <div class="chat-box">
-    <div class="nav-container"></div>
+    <div class="nav-container">
+      <the-nav />
+    </div>
     <div class="chat-message-container">
       <div class="chat-message--header">
         <el-input v-model="input" placeholder="搜索">
@@ -17,12 +19,12 @@
             v-for="(item, index) in messageList" 
             :key="index"
             @click="toActive(index)">
-          <Message :message="item" />
+          <message :message="item" />
         </div>
       </div>
     </div>
     <div class="chat-content-container">
-      <div class="chat-content--header ">
+      <div class="chat-content--header">
         <div class="tool-bar">
           <div class="tool-bar--item"><i class="el-icon-close" /></div>
           <div class="tool-bar--item"><i class="el-icon-full-screen" /></div>
@@ -30,6 +32,8 @@
         </div>
         <div class="title">腾讯新闻</div>
       </div>
+      <div class="chat-content--content"></div>
+      <div class="chat-content--input"></div>
     </div>
   </div>
 </template>
@@ -37,18 +41,22 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Message from '../components/chat/message.vue';
+import TheNav from '../components/chat/TheNav.vue';
+import { MessageItem } from '../types/index';
 @Component({
   components: {
     Message,
+    TheNav,
   },
 })
 export default class ChatBox extends Vue {
   // 消息列表
-  private messageList: object[] = [
+  private messageList: MessageItem[] = [
     {
       id: 1,
       name: '腾讯新闻',
       text: '习近平主持中央政治...',
+      time: '00:00',
       active: false,
       icon: '',
     },
@@ -56,6 +64,23 @@ export default class ChatBox extends Vue {
       id: 2,
       name: '公司群',
       text: 'XXX：今天加班',
+      time: '08:10',
+      active: false,
+      icon: '',
+    },
+    {
+      id: 3,
+      name: '微信运动',
+      text: '[不支持类型消息]',
+      time: '12:20',
+      active: false,
+      icon: '',
+    },
+    {
+      id: 4,
+      name: '文件传输助手',
+      text: '[链接]',
+      time: '02:55',
       active: false,
       icon: '',
     },
@@ -66,6 +91,8 @@ export default class ChatBox extends Vue {
   }
   public print(item: any): void {
     console.log(item);
+    // console.log(types);
+
   }
   private toActive(index: number): void {
     console.log(this.messageList[index])
@@ -78,6 +105,7 @@ export default class ChatBox extends Vue {
 <style lang="less">
   @search_height: 25px; 
   @search_color: #dbd9d8;
+  @content_input_height: 180px;
   .chat-box {
     width: 820px;
     height: 600px;
@@ -86,7 +114,7 @@ export default class ChatBox extends Vue {
     .nav-container {
       width: 60px;
       height: 100%;
-      padding: 20px 10px;
+      padding: 20px 5px 8px 5px;
       background-color: rgb(37,40,43);
     }
     .chat-message-container {
@@ -174,7 +202,9 @@ export default class ChatBox extends Vue {
       width: calc(100% - 60px - 250px);
       height: 100%;
       background-color: #fff;
+      position: relative;
       .chat-content--header {
+        border-bottom: 1px solid #eee;
         .chat-header;
         padding-top: 0;
         .tool-bar {
@@ -188,7 +218,9 @@ export default class ChatBox extends Vue {
             width: 34px;
             height: 100%;
             font-size: 10px;
-            background-color: rgb(227,227,227);
+            &:hover {
+              background-color: rgb(227,227,227);
+            }
           }
         }
         .title {
@@ -198,6 +230,19 @@ export default class ChatBox extends Vue {
           font-weight: 500;
           padding-left: 30px;
         }
+      }
+      .chat-content--content {
+        width: 100%;
+        height: calc(100% - 62px - @content_input_height);
+        padding: 0 30px;
+        background-color: yellow;
+      }
+      .chat-content--input {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: @content_input_height;
+        background-color: green;
       }
     }
     .chat-header {

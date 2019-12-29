@@ -4,6 +4,7 @@
     <div class="message-icon"></div>
     <div class="message-content">
       <div class="message-content--name">{{ message.name }}</div>
+      <div class="message-content--time">{{ message.time }}</div>
       <div class="message-content--text">{{ message.text }}</div>
     </div>
     <div class="message-content">
@@ -15,20 +16,21 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { MessageItem } from '../../types/index';
 @Component({})
 export default class ChatBox extends Vue {
   // @Prop({ default: false }) active!: boolean
   // @Prop({ default: '' }) name!: string
   // @Prop({ default: '' }) text!: string
   // @Prop({ default: 0 }) id!: number
-  @Prop({ default: {} }) message!: object
+  @Prop({ default: {} }) message!: MessageItem
   @Watch('active')
   private printData1(val: boolean) {
     console.log(val);
     // console.log(this.messageData, this.active);
   }
   private mounted(): void {
-    // console.log(this.active, this.test);
+    // console.log(MessageItem);
   }
 }
 </script>
@@ -41,6 +43,7 @@ export default class ChatBox extends Vue {
       display: flex;
       align-items: center;
       cursor: default;
+      position: relative;
       .message-icon {
         width: 40px;
         height: 40px;
@@ -50,6 +53,7 @@ export default class ChatBox extends Vue {
       .message-content {
         padding-left: 10px;
         text-align: left;
+        // position: relative;
         .message-content--name {
           line-height: 22px;
           font-size: 14px;
@@ -58,6 +62,14 @@ export default class ChatBox extends Vue {
         }
         .message-content--text {
           line-height: 16px;
+          font-size: 12px;
+          color: rgb(153, 161, 177);
+        }
+        .message-content--time {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          line-height: 22px;
           font-size: 12px;
           color: rgb(153, 161, 177);
         }
