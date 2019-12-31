@@ -1,15 +1,11 @@
 <template>
-  <div class="message" :class="{'message_active': message.active}">
-  <!-- <div class="message" @click="print"> -->
+  <div class="message" :class="{self: isSelf}">
     <div class="message-icon"></div>
-    <div class="message-content">
-      <div class="message-content--name">{{ message.name }}</div>
-      <div class="message-content--time">{{ message.time }}</div>
-      <div class="message-content--text">{{ message.text }}</div>
-    </div>
-    <div class="message-content">
-      <!-- <div class="message-content--name">{{ active }}</div> -->
-      <!-- <div class="message-content--text">{{ messageData }}</div> -->
+    <div 
+      class="message-text" 
+      :class="isSelf ? 
+      'message-text_right' : 'message-text_left'">
+      <span class="message-text_font">{{ message.text }}</span>
     </div>
   </div>
 </template>
@@ -19,15 +15,10 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { MessageItem } from '../../types/index';
 @Component({})
 export default class ChatBox extends Vue {
-  // @Prop({ default: false }) active!: boolean
-  // @Prop({ default: '' }) name!: string
-  // @Prop({ default: '' }) text!: string
-  // @Prop({ default: 0 }) id!: number
   @Prop({ default: {} }) message!: MessageItem
-  @Watch('active')
-  private printData1(val: boolean) {
-    console.log(val);
-    // console.log(this.messageData, this.active);
+  private myId: number = 1;
+  get isSelf(): boolean {
+    return this.message.id === this.myId;
   }
   private mounted(): void {
     // console.log(MessageItem);
@@ -37,51 +28,51 @@ export default class ChatBox extends Vue {
 
 <style lang="less" scoped>
   .message {
-      width: 100%;
-      height: 64px;
-      padding: 0 12px;
-      display: flex;
-      align-items: center;
-      cursor: default;
+    width: 100%;
+    min-height: 34px;
+    display: flex;
+    margin: 16px 0;
+    .message-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 2px;
+      background-color: pink;
+    }
+    .message-text {
+      max-width: 178px;
+      margin: 0 10px;
+      padding: 5px 12px 8px 12px;
+      border-radius: 3px;
+      text-align: left;
+      word-break: break-all;
+      background-color: #fff;
       position: relative;
-      .message-icon {
-        width: 40px;
-        height: 40px;
-        background-color: pink;
-        border-radius: 1px;
+      .message-text_font {
+        font-size: 14px;
       }
-      .message-content {
-        padding-left: 10px;
-        text-align: left;
-        // position: relative;
-        .message-content--name {
-          line-height: 22px;
-          font-size: 14px;
-          margin-bottom: 2px;
-          color: #000;
-        }
-        .message-content--text {
-          line-height: 16px;
-          font-size: 12px;
-          color: rgb(153, 161, 177);
-        }
-        .message-content--time {
-          position: absolute;
-          top: 12px;
-          right: 12px;
-          line-height: 22px;
-          font-size: 12px;
-          color: rgb(153, 161, 177);
-        }
+      &.message-text_left::before {
+        content: '';
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-right: 5px solid #fff;
+        position: absolute;
+        left: -10px;
+        top: 10px;
       }
-      // &:focus {
-        // background-color: rgb(200,200,200);
-      // }
-      &:hover {
-        background-color: rgb(215,215,216);
+      &.message-text_right::before {
+        content: '';
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-left: 5px solid #fff;
+        position: absolute;
+        right: -10px;
+        top: 10px;
       }
-      &.message_active {
-        background-color: rgb(200,200,200);
-      }
+    }
+  }
+  .self {
+    flex-direction: row-reverse;
   }
 </style>
