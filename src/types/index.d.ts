@@ -1,7 +1,8 @@
 // 消息栏 
+
 ////  单个对话
 export interface DialogueItem {
-  id: number;
+  dialogue_id: number;
   name: string;
   text: string;
   time: string;
@@ -10,12 +11,16 @@ export interface DialogueItem {
 }
 ////  单个消息
 export interface MessageItem {
-  id: number;
+  user_id: number;
   icon: string;
   name: string;
   text: string;
   time: string;
 }
+
+// export interface scrollDom {
+//   wrap: Document
+// }
 // export default {
 //   MessageItem,
 // }

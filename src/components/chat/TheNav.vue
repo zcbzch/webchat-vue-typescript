@@ -1,7 +1,12 @@
 <template>
   <div class="the-nav">
     <div class="nav_top">
-      <div class="nav-icon"></div>
+      <el-image 
+        class="nav-icon"
+        fit="cover"
+        :src="icon ?
+          icon :
+          require('../../assets/icon_default.jpg')"></el-image>
       <div class="nav-item" :class="{'nav_active': true}">
         <i class="el-icon-chat-line-round" />
       </div>
@@ -34,7 +39,15 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 export default class ChatBox extends Vue {
   private active: boolean = false;
   // @Prop({ default: {} }) message!: MessageItem
-  @Watch('active')
+  private username: string = '';
+  private nickname: string = '';
+  // private icon: string = 'https://upload.wikimedia.org/wikipedia/zh/a/af/WeChat_logo.svg';
+  private icon: string = '';
+  private user_id: number = 0;
+  // @Watch('active')
+  private getUserInfo(): void {
+
+  }
   private mounted(): void {
     // console.log(MessageItem);
   }
@@ -59,7 +72,7 @@ export default class ChatBox extends Vue {
       margin: auto;
       margin-bottom: 20px;
       border-radius: 2px;
-      background-color: pink;
+      // background-color: transparent;
     }
     .nav-item {
       width: 50px;

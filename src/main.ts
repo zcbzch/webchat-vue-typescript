@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
+Vue.prototype.$http = axios;
 // window['axios'] = axios;
 new Vue({
   router,

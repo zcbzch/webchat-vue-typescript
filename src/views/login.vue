@@ -1,27 +1,32 @@
 <template>
-  <div class="home">
-    <the-header />
-    <!-- <el-tag>home</el-tag> -->
-    <router-view />
-    <!-- {{ $store.state.date }} -->
-  </div>
+  <el-dialog 
+    title="登录" 
+    class="login" 
+    :visible.sync="dialogVisible">
+  </el-dialog>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import TheHeader from '../components/TheHeader.vue';
 // import ChartBox from './ChatBox.vue';
 @Component({
   components: {
-    TheHeader,
+    // TheHeader,
     // ChatBox,
   },
 })
 export default class Home extends Vue {
-
+  private dialogVisible: boolean = true;
   private mounted(): void {
-    this.$store.state.date = new Date();
+    // this.$store.state.date = new Date();
     // console.log(this.$route, this.$router.push, this.$store)
   }
 }
 </script>
+
+<style lang="less" scoped>
+  .login {
+    width: 500px;
+    // height: 400px;
+  }
+</style>

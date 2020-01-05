@@ -1,6 +1,12 @@
 <template>
   <div class="message" :class="{self: isSelf}">
-    <div class="message-icon"></div>
+    <!-- <div class="message-icon"></div> -->
+    <el-image 
+        class="message-icon"
+        fit="cover"
+        :src="icon ?
+          icon :
+          require('../../assets/icon_default.jpg')"></el-image>
     <div 
       class="message-text" 
       :class="isSelf ? 
@@ -16,9 +22,13 @@ import { MessageItem } from '../../types/index';
 @Component({})
 export default class ChatBox extends Vue {
   @Prop({ default: {} }) message!: MessageItem
-  private myId: number = 1;
+  private user_id: number = 0;
+  private username: string = '';
+  private nickname: string = '';
+  private icon: string = '';
+
   get isSelf(): boolean {
-    return this.message.id === this.myId;
+    return this.message.user_id === this.user_id;
   }
   private mounted(): void {
     // console.log(MessageItem);
@@ -36,19 +46,31 @@ export default class ChatBox extends Vue {
       width: 34px;
       height: 34px;
       border-radius: 2px;
-      background-color: pink;
+      cursor: pointer;
     }
     .message-text {
       max-width: 178px;
+      min-height: 32px;
       margin: 0 10px;
-      padding: 5px 12px 8px 12px;
+      padding: 8px 12px 8px 12px;
       border-radius: 3px;
       text-align: left;
       word-break: break-all;
-      background-color: #fff;
       position: relative;
       .message-text_font {
         font-size: 14px;
+      }
+      &.message-text_left {
+        background-color: #fff;
+        &:hover {
+          background-color: #f6f6f6;
+        }
+      }
+      &.message-text_right {
+        background-color: #9eea6a;
+        &:hover {
+          background-color: #98e165;
+        }
       }
       &.message-text_left::before {
         content: '';

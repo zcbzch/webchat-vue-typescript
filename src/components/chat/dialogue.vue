@@ -1,6 +1,11 @@
 <template>
   <div class="dialogue" :class="{'dialogue_active': dialogue.active}">
-    <div class="dialogue-icon"></div>
+    <el-image 
+        class="dialogue-icon"
+        fit="cover"
+        :src="icon ?
+          icon :
+          require('../../assets/icon_default.jpg')"></el-image>
     <div class="dialogue-content">
       <div class="dialogue-content--name">{{ dialogue.name }}</div>
       <div class="dialogue-content--time">{{ dialogue.time }}</div>
@@ -19,6 +24,7 @@ import { DialogueItem } from '../../types/index';
 export default class ChatBox extends Vue {
   @Prop({ default: {} }) dialogue!: DialogueItem
   @Watch('active')
+  private icon: string = '';
   private printData1(val: boolean) {
     console.log(val);
   }
@@ -40,7 +46,6 @@ export default class ChatBox extends Vue {
       .dialogue-icon {
         width: 40px;
         height: 40px;
-        background-color: pink;
         border-radius: 1px;
       }
       .dialogue-content {

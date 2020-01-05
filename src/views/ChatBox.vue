@@ -16,7 +16,7 @@
       </div>
       <div class="chat-dialogue--list">
         <div
-            v-for="(item, index) in dialogueList" 
+            v-for="(item, index) in filterDialogueList" 
             :key="index"
             @click="toActive(index)">
           <dialogue :dialogue="item" />
@@ -41,7 +41,10 @@
             :message="item" />
         </div>
       </el-scrollbar>
-      <div class="chat-content--input"></div>
+
+      <div class="chat-content--input">
+        <the-input /> 
+      </div>
     </div>
   </div>
 </template>
@@ -51,20 +54,22 @@ import { Component, Vue } from 'vue-property-decorator';
 import Dialogue from '../components/chat/dialogue.vue';
 import Message from '../components/chat/message.vue';
 import TheNav from '../components/chat/TheNav.vue';
-import { DialogueItem } from '../types/index';
-import { MessageItem } from '../types/index';
+import TheInput from '../components/chat/TheInput.vue';
+import { DialogueItem, MessageItem } from '../types/index';
+// import { MessageItem } from '../types/index';
 @Component({
   components: {
     Dialogue,
     Message,
     TheNav,
+    TheInput,
   },
 })
 export default class ChatBox extends Vue {
   // 对话列表
   private dialogueList: DialogueItem[] = [
     {
-      id: 1,
+      dialogue_id: 1,
       name: '腾讯新闻',
       text: '习近平主持中央政治...',
       time: '00:00',
@@ -72,7 +77,7 @@ export default class ChatBox extends Vue {
       icon: '',
     },
     {
-      id: 2,
+      dialogue_id: 2,
       name: '公司群',
       text: 'XXX：今天加班',
       time: '08:10',
@@ -80,7 +85,7 @@ export default class ChatBox extends Vue {
       icon: '',
     },
     {
-      id: 3,
+      dialogue_id: 3,
       name: '微信运动',
       text: '[不支持类型消息]',
       time: '12:20',
@@ -88,7 +93,7 @@ export default class ChatBox extends Vue {
       icon: '',
     },
     {
-      id: 4,
+      dialogue_id: 4,
       name: '文件传输助手',
       text: '[链接]',
       time: '02:55',
@@ -99,43 +104,56 @@ export default class ChatBox extends Vue {
   // 消息
   private messageList: MessageItem[] = [
     {
-      id: 1,
+      user_id: 1,
       name: '小明',
       icon: '',
       text: '12月28日习近平主持中央政治局专题民主生活会',
       time: '00:00',
     },
     {
-      id: 2,
+      user_id: 2,
       name: '小刚',
       icon: '',
       text: '会议内容是',
       time: '00:10',
     },
     {
-      id: 3,
+      user_id: 3,
       name: '小正',
       icon: '',
       text: '[不支持类型消息]',
       time: '1:20',
     },
     {
-      id: 4,
+      user_id: 4,
       name: '小虎',
       icon: '',
       text: '中央政治局的同志要从严要求自己，时刻自重自省自警自励，做到慎独慎初慎微慎友。要从自身做起，不断自我净化，修身律己、廉洁齐家，管好亲友和身边工作人员。',
       time: '02:55',
     },
     {
-      id: 5,
+      user_id: 5,
       name: '小红',
       icon: '',
       text: '习近平强调，在这次专题民主生活会上，中央政治局的同志主动找差距、找不足，就做好工作提了许多很好的意见和建议，有的涉及中央工作，有的涉及部门工作，有的涉及地方工作，会后要抓紧研究、拿出举措、改进工作，务求取得实效',
       time: '02:55',
     },
+    {
+      user_id: 0,
+      name: '老王',
+      icon: '',
+      text: '大佬666',
+      time: '7:35',
+    },
   ];
 
   private input: string = '';
+  get filterDialogueList(): DialogueItem[] {
+    if (!this.input) return this.dialogueList;
+    return this.dialogueList.filter(item => {
+      return item.name.indexOf(this.input) >= 0 || item.text.indexOf(this.input) >= 0
+    });
+  }
   private mounted(): void {
     this.initScroll('scrollbar_chatContent', 'bottom');
   }
@@ -155,6 +173,7 @@ export default class ChatBox extends Vue {
     if (position == 'bottom') {
       // @ts-ignore：wrap不在Vue对象上
       const element = this.$refs[ref]['wrap'];
+      // const element = (<scrollDom>this.$refs[ref])['wrap'];
       this.$nextTick(() => {
         element.scrollTop = element.scrollHeight;
       })
@@ -308,7 +327,6 @@ export default class ChatBox extends Vue {
         bottom: 0;
         width: 100%;
         height: @content_input_height;
-        background-color: rgb(250, 249, 249);
       }
     }
     .chat-header {
