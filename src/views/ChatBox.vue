@@ -169,7 +169,7 @@ export default class ChatBox extends Vue {
     this.dialogueList[index].active = true;
   }
   private initScroll(ref: string, position?: string): void {
-    console.log(this.$refs, this.$refs[ref]);
+    // console.log(this.$refs, this.$refs[ref]);
     if (position == 'bottom') {
       // @ts-ignore：wrap不在Vue对象上
       const element = this.$refs[ref]['wrap'];
