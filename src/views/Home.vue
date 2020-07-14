@@ -1,3 +1,10 @@
+<!--
+ * @Author: zch
+ * @Date: 2020-07-15 00:26:03
+ * @LastEditors: zch
+ * @LastEditTime: 2020-07-15 00:26:48
+ * @Description: 
+--> 
 <template>
   <div class="home">
     <the-header />
