@@ -20,3 +20,8 @@ declare module "vue/types/vue" {
     // $api: any;
   }
 }
+
+// import socket from 'socket.io-client';
+// declare module "socket.io-client" {
+//   export let e: any;
+// }

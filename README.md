@@ -1,5 +1,7 @@
 # webchat-vue-typescript
 
+开发中。。。
+
 ## Project setup
 ```
 npm install
